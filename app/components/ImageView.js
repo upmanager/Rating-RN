@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import storage from '@react-native-firebase/storage';
 import { Image } from 'react-native-elements'
+import { ActivityIndicator } from "react-native";
 
 export default function ImageView(props) {
     const [source, setSource] = useState("")
@@ -18,6 +19,7 @@ export default function ImageView(props) {
         <Image
             {...props}
             source={source}
+            PlaceholderContent={<ActivityIndicator color={"#000"} />}
         />
     )
 }
