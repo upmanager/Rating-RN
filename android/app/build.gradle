@@ -154,6 +154,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        debug {
+            storeFile file('rating-app.jks')
+            storePassword 'ratingapp'
+            keyAlias 'ratingapp'
+            keyPassword 'ratingapp'
+        }
     }
     buildTypes {
         debug {
