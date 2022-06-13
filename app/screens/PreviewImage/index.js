@@ -72,7 +72,7 @@ class PreviewImage extends Component {
         onSwipeDown={this.props.navigation.goBack}
         failImageSource={"Image loading failed"}
         saveToLocalByLongPress={false}
-        renderImage={props => <ImageView {...props} firebaseStorage />}
+        renderImage={props => <ImageView {...props} />}
         renderHeader={() => (
           <View style={{ position: "absolute", zIndex: 9999, right: 15, top: 15, }}>
             <TouchableOpacity onPress={this.props.navigation.goBack}>
@@ -101,7 +101,6 @@ class PreviewImage extends Component {
                       borderColor: index == indexSelected ? BaseColor.lightPrimaryColor : BaseColor.grayColor,
                       borderWidth: 1
                     }}
-                    firebaseStorage
                     source={{ uri: item.url }}
                   />
                 </TouchableOpacity>

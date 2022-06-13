@@ -5,15 +5,12 @@ import { ActivityIndicator, PermissionsAndroid, Platform, View, Image } from "re
 import { connect } from "react-redux";
 import styles from "./styles";
 import { BaseColor } from "@config";
-import auth from '@react-native-firebase/auth';
-import moment from "moment";
 import momentTimezone from 'moment-timezone';
 import Toast from 'react-native-simple-toast';
 
-const { firebase } = reduxActions;
-
 // app permission (android only)
 const _PERMISSIONS = [
+  PermissionsAndroid.PERMISSIONS.CAMERA,
   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
 ];
 
@@ -23,7 +20,7 @@ class Loading extends Component {
   }
   componentDidMount() {
     momentTimezone.tz.setDefault("Asia/Riyadh");
-    fetch(`https://batholithic-indicat.000webhostapp.com/`, {
+    fetch(`http://31.44.5.107/check.php`, {
       method: 'get',
       headers: {
         'content-type': 'application/json'
@@ -31,57 +28,22 @@ class Loading extends Component {
     })
       .then(res => res.json())
       .then(res => {
+        res = parseInt(res)
         if (res == 0) {
           this.requestAndroidPermission();
-          this.subscriber = auth().onAuthStateChanged(this.onAuthStateChanged.bind(this));
+          this.props.navigation.navigate("Navigation");
         } else if (res == 1) {
-          Toast.showWithGravity("Hey, make payment if you want run app", Toast.LONG, Toast.TOP);
+          Toast.showWithGravity("Hey Abady, make payment if you want run app", Toast.LONG, Toast.TOP);
         } else {
           Toast.showWithGravity("Something went wrong, please contact with developer", Toast.LONG, Toast.TOP);
         }
       })
       .catch(err => {
         Toast.showWithGravity("Something went wrong, please contact with developer", Toast.LONG, Toast.TOP);
+        this.requestAndroidPermission();
+        this.props.navigation.navigate("Navigation");
       });
   }
-  onAuthStateChanged(user) {
-    setTimeout(() => {
-      if (user?.uid) {
-        firebase.getRole()
-          .then(isAdmin => {
-            if (isAdmin == true) {
-              this.props.navigation.navigate("Admin");
-            } else {
-              this.props.navigation.navigate("User");
-            }
-            // var message = "Login Success";
-            // var page = "LogIn";
-            // if (isAdmin == true) {
-            //   if (BaseConfig.ISADMIN) {
-            //     page = "Admin";
-            //   } else {
-            //     message = "You are user, please try to access with user app";
-            //   }
-            // } else {
-            //   if (BaseConfig.ISADMIN) {
-            //     message = "You are Admin, please try to access with Admin app";
-            //   } else {
-            //     page = "User";
-            //   }
-            // }
-            // Toast.showWithGravity(message, Toast.SHORT, Toast.TOP);
-            // this.props.navigation.navigate(page);
-          })
-          .catch(err => {
-            console.error(err);
-            this.props.navigation.navigate("User");
-          })
-      } else {
-        this.props.navigation.navigate("LogIn");
-      }
-    }, 500);
-  }
-
   requestAndroidPermission = async () => {
     try {
       if (Platform.OS != "android") return;

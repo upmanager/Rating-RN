@@ -1,6 +1,6 @@
 
 let BaseColor = {
-  primaryColor: "#ff4081",
+  primaryColor: "#00bfff",
   whiteColor: "#fff",
   grayColor: "#656669",
   lightWhiteColor: "#eee",

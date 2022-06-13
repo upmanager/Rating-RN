@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   logo: {
     width: "100%",
-    height: 200
+    height: 250
   },
   passwordAction: {
     position: "absolute",

@@ -13,6 +13,9 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import Navigation from "./navigation";
 import { BaseColor } from "@config";
+import { enableLatestRenderer } from 'react-native-maps';
+
+enableLatestRenderer();
 
 LogBox.ignoreAllLogs(true);
 const App = () => {

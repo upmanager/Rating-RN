@@ -9,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: BaseColor.whiteColor
   },
   logo: {
-    width: 200,
+    width: "80%",
     height: 200,
   },
   loading: {

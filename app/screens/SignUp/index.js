@@ -1,23 +1,25 @@
 import * as reduxActions from "@actions";
 import { Header, PasswordInput, Text } from "@components";
-import { BaseColor, BaseConfig } from "@config";
+import { BaseColor } from "@config";
 import React, { Component } from "react";
 import { View } from "react-native";
-import { Button, Icon, Input, Switch } from 'react-native-elements';
+import { Button, Icon, Input, CheckBox } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 import { connect } from "react-redux";
 import styles from "./styles";
 
 class LogIn extends Component {
   state = {
-    username: "",
-    email: '',
-    password: '',
-    confirmPassword: '',
-    isAdmin: false,
+    name: "test",
+    email: 'test@gmail.com',
+    password: 'test12345',
+    confirmPassword: 'test12345',
+    phonenumber: '+1234567890',
+    role: 1, //1: clients 2: workers
     validate: {
-      username: true,
+      name: true,
       email: true,
+      phonenumber: true,
       password: true,
       confirm_password: true,
       show_password: false,
@@ -42,29 +44,31 @@ class LogIn extends Component {
   }
   register() {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    const { email, password, confirmPassword, username, isAdmin } = this.state;
+    const { email, password, confirmPassword, name, role, phonenumber } = this.state;
     this.setValidateState({
       email: reg.test(email),
       password: !!password,
       confirm_password: password == confirmPassword,
-      username: !!username,
+      name: !!name,
+      phonenumber: !!phonenumber,
     })
-    if (!reg.test(email) || !password || password != confirmPassword, !username) {
+    if (!reg.test(email) || !password || password != confirmPassword, !name) {
       return;
     }
     this.setState({ registering: true });
-    // const isadmin = BaseConfig.ISADMIN;
-    this.props.register(email, password, username, isAdmin, res => {
+    this.props.register(email, password, name, phonenumber, role, res => {
+      console.log(res);
       this.setState({ registering: false });
       if (res.success) {
-        Toast.showWithGravity(res.message, Toast.SHORT, Toast.TOP);
+        Toast.showWithGravity(res.message || 'Register success.', Toast.SHORT, Toast.TOP);
+        this.props.navigation.navigate("LogIn");
       } else {
         Toast.showWithGravity(res.message || 'Register failed, please try again later.', Toast.SHORT, Toast.TOP);
       }
     })
   }
   render() {
-    const { username, email, password, confirmPassword, validate, registering, isAdmin } = this.state;
+    const { name, email, password, phonenumber, confirmPassword, validate, registering, role } = this.state;
     return (
       <View style={styles.container}>
         <Header
@@ -76,15 +80,22 @@ class LogIn extends Component {
         <View style={styles.contain}>
           <Input
             placeholder='User Name'
-            value={username}
-            errorMessage={validate.username ? '' : 'Please input User Name'}
-            onChangeText={username => this.setState({ username })}
+            value={name}
+            errorMessage={validate.name ? '' : 'Please input User Name'}
+            onChangeText={name => this.setState({ name })}
           />
           <Input
             placeholder='Email'
             value={email}
             errorMessage={validate.email ? '' : 'Please input valid email'}
             onChangeText={email => this.setState({ email })}
+          />
+          <Input
+            placeholder='Phone number'
+            value={phonenumber}
+            keyboardType={'phone-pad'}
+            errorMessage={validate.phonenumber ? '' : 'Please input Phone number'}
+            onChangeText={phonenumber => this.setState({ phonenumber })}
           />
           <Input
             placeholder='Password'
@@ -98,7 +109,6 @@ class LogIn extends Component {
             InputComponent={PasswordInput}
             onChangeText={password => this.setState({ password })}
           />
-
           <Input
             placeholder='Confirm Password'
             secureTextEntry={!validate.show_confirm_password}
@@ -111,9 +121,25 @@ class LogIn extends Component {
             InputComponent={PasswordInput}
             onChangeText={confirmPassword => this.setState({ confirmPassword })}
           />
+          {/* <Text headline>Role</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Switch value={isAdmin} onValueChange={isAdmin => this.setState({ isAdmin })} /><Text headline>Register with Admin?</Text>
-          </View>
+            <CheckBox
+              style={{ flex: 1 }}
+              checked={role == 1}
+              title='Client'
+              checkedIcon='dot-circle-o'
+              uncheckedIcon='circle-o'
+              onPress={() => this.setState({ role: 1 })}
+            />
+            <CheckBox
+              style={{ flex: 1 }}
+              title='Co-Worker'
+              checked={role == 2}
+              checkedIcon='dot-circle-o'
+              uncheckedIcon='circle-o'
+              onPress={() => this.setState({ role: 2 })}
+            />
+          </View> */}
           <View style={{ flex: 1 }} />
 
           <Button

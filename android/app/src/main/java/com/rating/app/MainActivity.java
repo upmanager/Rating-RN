@@ -1,4 +1,4 @@
-package com.rating;
+package com.rating.app;
 
 import com.facebook.react.ReactActivity;
 

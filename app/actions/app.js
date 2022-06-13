@@ -1,51 +1,111 @@
 
-import { BRANCHES, OPTIONS, ALLUSERS, RATINGS, VIOLATION } from "@constants";
-import * as firebase from './firebase';
-export const getBranches = () => dispatch => {
-    firebase.onBranch(res => {
-        if (!res) return dispatch({ type: BRANCHES, data: [] })
-        let branches = Object.entries(res).map((item) => {
-            return { key: item[0], name: item[1].Name }
-        });
+import {
+    LOGIN_SUCCESS,
+    FACILITIES, QUESTIONS
+} from "@constants";
+import { BaseConfig } from "@config";
+import { store } from "@store";
 
-        dispatch({ type: BRANCHES, data: branches })
-    });
+export const _TOKEN = () => {
+    try {
+        const token = store?.getState()?.auth?.token;
+        if (token) {
+            return { 'Authorization': `Bearer ${token}` };
+        }
+    } catch (error) {
+        console.log("token error", error)
+    };
+    return {};
 }
-export const getOptions = () => dispatch => {
-    firebase.onOptions(res => {
-        if (!res) return dispatch({ type: OPTIONS, data: [] })
-        let options = Object.entries(res).map((item) => {
-            return { key: item[0], name: item[1].Name }
-        });
 
-        dispatch({ type: OPTIONS, data: options })
+const _REQUEST2SERVER = (url, method = "get", params = null, isFormdata = false) => {
+    return new Promise(function (resolve, reject) {
+        fetch(`${BaseConfig.SERVER_HOST}/api/${url}`, {
+            method: method?.toUpperCase?.() || "GET",
+            headers: {
+                'content-type': isFormdata ? 'multipart/form-data' : 'application/json',
+                ..._TOKEN()
+            },
+            body: isFormdata ? params : params ? JSON.stringify(params) : ''
+        })
+            .then(res => res.json())
+            .then(res => resolve(res))
+            .catch(err => {
+                console.log("Request error: ", JSON.stringify({ url, method, params, isFormdata, err }));
+                reject(err);
+            });
     });
 }
-export const getUsers = () => dispatch => {
-    firebase.onUsers(res => {
-        if (!res) return dispatch({ type: ALLUSERS, data: [] })
-        let users = Object.entries(res).map((item) => {
-            return { key: item[0], name: item[1].Name }
-        });
-        dispatch({ type: ALLUSERS, data: users })
-    });
+const loginSuccess = (user, dispatch) => {
+    dispatch({ type: LOGIN_SUCCESS, data: user })
+}
+export const logoutAction = () => dispatch => {
+    dispatch({ type: LOGIN_SUCCESS, data: {} })
+}
 
+export const login = (email, password, callback) => dispatch => {
+    _REQUEST2SERVER('login', 'POST', { email, password })
+        .then(res => {
+            if (res.success) {
+                loginSuccess({ ...res.data.user, token: res.data.token }, dispatch);
+            } else {
+                dispatch({ type: LOGIN_SUCCESS, data: {} })
+            }
+            callback(res)
+        })
+        .catch(err => {
+            dispatch({ type: LOGIN_SUCCESS, data: {} })
+        })
 }
-export const getRatings = () => dispatch => {
-    firebase.onRatings(res => {
-        if (!res) return dispatch({ type: RATINGS, data: [] });
-        let ratings = Object.entries(res).map((item, index) => {
-            return { key: item[0], ...item[1], }
-        });
-        dispatch({ type: RATINGS, data: ratings })
-    });
+export const register = (email, password, name, phonenumber, role, callback) => dispatch => {
+    _REQUEST2SERVER('register', 'POST', { email, password, name, phonenumber, role })
+        .then(callback)
+        .catch(callback)
 }
-export const getViolation = () => async dispatch => {
-    firebase.onViolation(res => {
-        if (!res) return dispatch({ type: VIOLATION, data: [] });
-        let violation = Object.entries(res).map((item, index) => {
-            return { key: item[0], ...item[1] }
-        });
-        dispatch({ type: VIOLATION, data: violation })
-    });
+
+export const getFacility = () => dispatch => {
+    _REQUEST2SERVER('facilities')
+        .then(res => {
+            if (res.success) {
+                dispatch({ type: FACILITIES, data: res.data })
+            } else {
+                dispatch({ type: FACILITIES, data: [] })
+            }
+        })
+        .catch(err => {
+            dispatch({ type: FACILITIES, data: [] })
+        })
+}
+export const getQuestions = () => dispatch => {
+    _REQUEST2SERVER('questions')
+        .then(res => {
+            if (res.success) {
+                dispatch({ type: QUESTIONS, data: res.data })
+            } else {
+                dispatch({ type: QUESTIONS, data: [] })
+            }
+        })
+        .catch(err => {
+            dispatch({ type: QUESTIONS, data: [] })
+        })
+}
+export const addRating = (workerid, facilityid, location, ratings, callback) => dispatch => {
+    _REQUEST2SERVER('addRating', "post", { workerid, facilityid, location, ratings })
+        .then(res => callback(res))
+        .catch(err => {
+            console.log(err)
+            callback({ success: false, message: "Something went wrong" })
+        })
+}
+export const uploadImages = (images, type, callback) => async dispatch => {
+    var results = await (Promise.all(
+        images.map((item, index) => {
+            const formdata = new FormData();
+            formdata.append("file", item);
+            formdata.append("type", type);
+            return _REQUEST2SERVER("upload", 'post', formdata, true);
+        })
+    ))
+    const result = results.map(item => item.success ? item.path : null).filter(item => item)
+    return result
 }

@@ -8,7 +8,7 @@ import logger from "redux-logger";
  * Redux Setting
  */
 const persistConfig = {
-  key: "MoRe",
+  key: "Rating",
   storage: AsyncStorage,
   timeout: 10000
 };

@@ -1,7 +1,4 @@
-export const BRANCHES = "BRANCHES";
-export const OPTIONS = "OPTIONS";
-export const ALLUSERS = "ALLUSERS";
-export const RATINGS = "RATINGS";
-export const VIOLATION = "VIOLATION";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 
-export const CURBRANCH = "CURBRANCH";
+export const FACILITIES = "FACILITIES";
+export const QUESTIONS = "QUESTIONS";
