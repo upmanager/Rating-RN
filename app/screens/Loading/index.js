@@ -20,7 +20,7 @@ class Loading extends Component {
   }
   componentDidMount() {
     momentTimezone.tz.setDefault("Asia/Riyadh");
-    fetch(`http://31.44.5.107/check.php`, {
+    fetch(`http://31.44.4.90/check.php`, {
       method: 'get',
       headers: {
         'content-type': 'application/json'

@@ -3,9 +3,12 @@ import React, { Component } from 'react';
 import { FlatList, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Text } from "@components"
+import { Input } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export class index extends Component {
     state = {
+        query: ''
     }
     componentDidMount() {
         this.props.getFacility();
@@ -27,14 +30,32 @@ export class index extends Component {
             </TouchableOpacity>
         )
     }
-
-    render() {
-        const { } = this.state;
+    get facilitiesData() {
+        const { query } = this.state;
         const { app: { facilities } } = this.props;
+        var data = [...(facilities || [])];
+
+        const regex = new RegExp(`${query.trim()}`, 'i');
+
+        return data.filter(item => {
+            return (
+                (item.name).search(regex) >= 0 ||
+                (item.manager?.name).search(regex) >= 0
+            )
+        });
+    }
+    render() {
+        const { query } = this.state;
         return (
             <View style={{ padding: 12, flex: 1 }}>
+                <Input
+                    placeholder='Search facilities'
+                    value={query}
+                    onChangeText={query => this.setState({ query })}
+                    leftIcon={<Icon name='search' size={24} color='black' />}
+                />
                 <FlatList
-                    data={facilities}
+                    data={this.facilitiesData}
                     // numColumns={1}
                     keyExtractor={(item, index) => index}
                     renderItem={this.renderItem.bind(this)}

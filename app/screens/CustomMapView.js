@@ -32,7 +32,7 @@ class CustomMapView extends Component {
       mapType: 0,
       search_location: false
     }
-    Geocoder.init('AIzaSyBqvzAR5w5ZWx8QqMXOfVFQRip-jf-gyls');
+    Geocoder.init('AIzaSyDR-8rg4jTCxRQbLw-bVm2V6wwSjAvbbVA');
   }
   componentDidMount() {
     if (this.params.viewable) return;
@@ -98,7 +98,7 @@ class CustomMapView extends Component {
                 fetchDetails={true}
                 onPress={this.onAutoComplete.bind(this)}
                 query={{
-                  key: 'AIzaSyBqvzAR5w5ZWx8QqMXOfVFQRip-jf-gyls',
+                  key: 'AIzaSyDR-8rg4jTCxRQbLw-bVm2V6wwSjAvbbVA',
                   language: "en"
                 }}
                 styles={{

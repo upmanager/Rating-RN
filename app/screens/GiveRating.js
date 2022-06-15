@@ -1,15 +1,12 @@
 import * as reduxActions from "@actions";
 import { connect } from "react-redux";
-import { StyleSheet, View, TouchableOpacity, FlatList, Image } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseColor } from "@config"
 import { Text } from "@components"
 import { CheckBox, Icon } from 'react-native-elements'
 import ImagePicker from 'react-native-image-crop-picker';
 
-const categories = [
-    'Equipment and tools', 'Ventilation', 'Lighting', 'Sanitation', 'Personnel hygiene'
-]
 const GiveRating = (props) => {
     const { data, location } = props.route.params;
 
@@ -135,57 +132,59 @@ const GiveRating = (props) => {
                         renderItem={renderCategory}
                     />
                 </View>
-                {selectedCategory?.questions?.map((item, dataIndex) => {
-                    var { index: curQuestIndex, data: curQuestion } = getSelectedItem(item.id)
-                    return (
-                        <View style={{ marginVertical: 15 }}>
-                            <Text headline bold>{item.question}</Text>
-                            <View style={{ flexDirection: "row" }}>
-                                <CheckBox
-                                    style={{ flex: 1 }}
-                                    checked={curQuestion && curQuestion.match === true}
-                                    title='Match'
-                                    checkedIcon='dot-circle-o'
-                                    uncheckedIcon='circle-o'
-                                    onPress={() => setMatch(curQuestIndex, item.id, true)}
-                                />
-                                <CheckBox
-                                    style={{ flex: 1 }}
-                                    checked={curQuestion && curQuestion.match === false}
-                                    title='Non Match'
-                                    checkedIcon='dot-circle-o'
-                                    uncheckedIcon='circle-o'
-                                    onPress={() => setMatch(curQuestIndex, item.id, false)}
-                                />
-                            </View>
-                            {(curQuestIndex >= 0 && curQuestion.match === false) &&
-                                <>
-                                    <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                        <TouchableOpacity style={styles.imageAction}
-                                            onPress={() => selectImage(curQuestIndex, false)}
-                                        >
-                                            <Text whiteColor>Choose from Gallery</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.imageAction}
-                                            onPress={() => selectImage(curQuestIndex, true)}
-                                        >
-                                            <Text whiteColor>Take with Camera</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    {curQuestion.images?.length > 0 &&
-                                        <View style={{ height: 120, marginTop: 10 }}>
-                                            <FlatList
-                                                horizontal
-                                                data={curQuestion.images}
-                                                keyExtractor={(_, index) => index}
-                                                renderItem={({ item, index }) => renderImage(item, index, curQuestIndex)} />
+                <ScrollView>
+                    {selectedCategory?.questions?.map((item, dataIndex) => {
+                        var { index: curQuestIndex, data: curQuestion } = getSelectedItem(item.id)
+                        return (
+                            <View key={dataIndex} style={{ marginVertical: 15 }}>
+                                <Text headline bold>{item.question}</Text>
+                                <View style={{ flexDirection: "row" }}>
+                                    <CheckBox
+                                        style={{ flex: 1 }}
+                                        checked={curQuestion && curQuestion.match === true}
+                                        title='Match'
+                                        checkedIcon='dot-circle-o'
+                                        uncheckedIcon='circle-o'
+                                        onPress={() => setMatch(curQuestIndex, item.id, true)}
+                                    />
+                                    <CheckBox
+                                        style={{ flex: 1 }}
+                                        checked={curQuestion && curQuestion.match === false}
+                                        title='Non Match'
+                                        checkedIcon='dot-circle-o'
+                                        uncheckedIcon='circle-o'
+                                        onPress={() => setMatch(curQuestIndex, item.id, false)}
+                                    />
+                                </View>
+                                {(curQuestIndex >= 0 && curQuestion.match === false) &&
+                                    <>
+                                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                            <TouchableOpacity style={styles.imageAction}
+                                                onPress={() => selectImage(curQuestIndex, false)}
+                                            >
+                                                <Text whiteColor>Choose from Gallery</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.imageAction}
+                                                onPress={() => selectImage(curQuestIndex, true)}
+                                            >
+                                                <Text whiteColor>Take with Camera</Text>
+                                            </TouchableOpacity>
                                         </View>
-                                    }
-                                </>
-                            }
-                        </View>
-                    )
-                })}
+                                        {curQuestion.images?.length > 0 &&
+                                            <View style={{ height: 120, marginTop: 10 }}>
+                                                <FlatList
+                                                    horizontal
+                                                    data={curQuestion.images}
+                                                    keyExtractor={(_, index) => index}
+                                                    renderItem={({ item, index }) => renderImage(item, index, curQuestIndex)} />
+                                            </View>
+                                        }
+                                    </>
+                                }
+                            </View>
+                        )
+                    })}
+                </ScrollView>
 
                 <View style={{ flex: 1 }} />
                 <TouchableOpacity style={[styles.button]} onPress={save}>

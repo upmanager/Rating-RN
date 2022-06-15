@@ -10,8 +10,8 @@ import styles from "./styles";
 
 class LogIn extends Component {
   state = {
-    email: 'client@rating.com',
-    password: 'root',
+    email: '',
+    password: '',
     validate: {
       email: true,
       password: true,
