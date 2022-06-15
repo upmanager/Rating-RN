@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { StyleSheet, View, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BaseColor } from "@config"
-import { Text } from "@components"
+import { Header, Text } from "@components"
 import { CheckBox, Icon } from 'react-native-elements'
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -13,6 +13,7 @@ const GiveRating = (props) => {
     const [questions, setQuestions] = useState([])
     const [selectedCategory, setSelectedCategory] = useState({})
     const [selectStatus, setSelectStatus] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         setQuestions(props.app.questions)
@@ -110,18 +111,22 @@ const GiveRating = (props) => {
         return tmp
     }
     const save = async () => {
+        setLoading(true)
         var updated = await uploadImages()
         props.addRating(props.auth.user.id, data.id, location, updated,
             (res) => {
-                console.log(res);
+                setLoading(false)
                 props.navigation.navigate('Home')
             })
     }
     return (
         <View style={{ flex: 1 }}>
-            <View style={styles.header}>
-                <Text whiteColor bold title3>Ratings</Text>
-            </View>
+            <Header
+                title={'Ratings'}
+                renderLeft={<Icon name={'angle-left'} color={BaseColor.whiteColor} size={30} type={'font-awesome'} />}
+                onPressLeft={() => props.navigation.goBack()}
+                loading={loading}
+            />
             <View style={styles.container}>
                 <View>
                     <Text headline bold>Categories</Text>
@@ -187,7 +192,7 @@ const GiveRating = (props) => {
                 </ScrollView>
 
                 <View style={{ flex: 1 }} />
-                <TouchableOpacity style={[styles.button]} onPress={save}>
+                <TouchableOpacity style={[styles.button, loading && { backgroundColor: BaseColor.grayColor }]} onPress={save} disabled={loading}>
                     <Text whiteColor headline>Save</Text>
                 </TouchableOpacity>
             </View>

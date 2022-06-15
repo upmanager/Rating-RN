@@ -1,7 +1,8 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import React, { useCallback, useState } from 'react'
-import { Text } from "@components"
+import { Text, Header } from "@components"
 import { BaseColor } from "@config";
+import { Icon } from "react-native-elements"
 
 const Detail = (props) => {
     const [location, setLocation] = useState(null)
@@ -19,9 +20,11 @@ const Detail = (props) => {
     }
     return (
         <View style={{ flex: 1 }}>
-            <View style={styles.header}>
-                <Text whiteColor bold title3>Facility Info</Text>
-            </View>
+            <Header
+                title={'Facility Info'}
+                renderLeft={<Icon name={'angle-left'} color={BaseColor.whiteColor} size={30} type={'font-awesome'} />}
+                onPressLeft={() => props.navigation.goBack()}
+            />
             <View style={styles.container}>
                 <Text subhead style={styles.text}>Name of the facility:                  {data.name}</Text>
                 <Text subhead style={styles.text}>Commercial Record number:  {data.record_number}</Text>
