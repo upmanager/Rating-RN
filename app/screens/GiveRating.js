@@ -49,6 +49,7 @@ const GiveRating = (props) => {
     const selectImage = (questionIndex, isCamera) => {
         const options = {
             cropping: true,
+            compressImageQuality: 0.7
         };
         const response = (image) => {
             const choose_image = {
