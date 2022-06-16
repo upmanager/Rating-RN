@@ -5,7 +5,7 @@ import { ActivityIndicator, FlatList, TouchableOpacity, View, Platform } from "r
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { connect } from "react-redux";
 import * as reduxActions from "@actions";
-import { getDeviceWidth, getDeviceHeight } from "@utils";
+import { getDeviceWidth, getDeviceHeight, t } from "@utils";
 import { Icon } from "react-native-elements";
 
 class PreviewImage extends Component {
@@ -59,7 +59,6 @@ class PreviewImage extends Component {
   }
   render() {
     const { indexSelected } = this.state;
-    console.log(this.getData)
     return (
       <ImageViewer
         imageUrls={this.getData}
@@ -70,7 +69,7 @@ class PreviewImage extends Component {
         onChange={this.onSelect.bind(this)}
         renderIndicator={() => <ActivityIndicator color={BaseColor.whiteColor} size={'large'} />}
         onSwipeDown={this.props.navigation.goBack}
-        failImageSource={"Image loading failed"}
+        failImageSource={t("Image loading failed")}
         saveToLocalByLongPress={false}
         renderImage={props => <ImageView {...props} />}
         renderHeader={() => (

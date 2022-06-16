@@ -6,6 +6,7 @@ import { BaseColor } from "@config"
 import { Header, Text } from "@components"
 import { CheckBox, Icon } from 'react-native-elements'
 import ImagePicker from 'react-native-image-crop-picker';
+import { t } from "@utils"
 
 const GiveRating = (props) => {
     const { data, location } = props.route.params;
@@ -147,7 +148,7 @@ const GiveRating = (props) => {
                                     <CheckBox
                                         style={{ flex: 1 }}
                                         checked={curQuestion && curQuestion.match === true}
-                                        title='Match'
+                                        title={t('Match')}
                                         checkedIcon='dot-circle-o'
                                         uncheckedIcon='circle-o'
                                         onPress={() => setMatch(curQuestIndex, item.id, true)}
@@ -155,7 +156,7 @@ const GiveRating = (props) => {
                                     <CheckBox
                                         style={{ flex: 1 }}
                                         checked={curQuestion && curQuestion.match === false}
-                                        title='Non Match'
+                                        title={t('Non Match')}
                                         checkedIcon='dot-circle-o'
                                         uncheckedIcon='circle-o'
                                         onPress={() => setMatch(curQuestIndex, item.id, false)}

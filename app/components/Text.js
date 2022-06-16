@@ -2,6 +2,7 @@ import { BaseColor, Typography } from "@config";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { StyleSheet, Text } from "react-native";
+import { t } from "@utils";
 
 export default class Index extends Component {
   constructor(props) {
@@ -82,7 +83,7 @@ export default class Index extends Component {
         ])}
         numberOfLines={numberOfLines}
       >
-        {this.props.children}
+        {t(this.props.children)}
       </Text>
     );
   }

@@ -1,11 +1,12 @@
 import * as reduxActions from "@actions";
-import { Header, PasswordInput, Text } from "@components";
+import { Header, PasswordInput } from "@components";
 import { BaseColor } from "@config";
 import React, { Component } from "react";
 import { View } from "react-native";
-import { Button, Icon, Input, CheckBox } from 'react-native-elements';
+import { Button, Icon, Input } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 import { connect } from "react-redux";
+import { t } from "@utils";
 import styles from "./styles";
 
 class LogIn extends Component {
@@ -60,10 +61,10 @@ class LogIn extends Component {
       console.log(res);
       this.setState({ registering: false });
       if (res.success) {
-        Toast.showWithGravity(res.message || 'Register success.', Toast.SHORT, Toast.TOP);
+        Toast.showWithGravity(res.message || t('Register success.'), Toast.SHORT, Toast.TOP);
         this.props.navigation.navigate("LogIn");
       } else {
-        Toast.showWithGravity(res.message || 'Register failed, please try again later.', Toast.SHORT, Toast.TOP);
+        Toast.showWithGravity(res.message || t('Register failed, please try again later.'), Toast.SHORT, Toast.TOP);
       }
     })
   }
@@ -79,26 +80,26 @@ class LogIn extends Component {
         />
         <View style={styles.contain}>
           <Input
-            placeholder='User Name'
+            placeholder={t('User Name')}
             value={name}
-            errorMessage={validate.name ? '' : 'Please input User Name'}
+            errorMessage={validate.name ? '' : t('Please input User Name')}
             onChangeText={name => this.setState({ name })}
           />
           <Input
-            placeholder='Email'
+            placeholder={t('Email')}
             value={email}
-            errorMessage={validate.email ? '' : 'Please input valid email'}
+            errorMessage={validate.email ? '' : t('Please input valid email')}
             onChangeText={email => this.setState({ email })}
           />
           <Input
-            placeholder='Phone number'
+            placeholder={t('Phone number')}
             value={phonenumber}
             keyboardType={'phone-pad'}
-            errorMessage={validate.phonenumber ? '' : 'Please input Phone number'}
+            errorMessage={validate.phonenumber ? '' : t('Please input Phone number')}
             onChangeText={phonenumber => this.setState({ phonenumber })}
           />
           <Input
-            placeholder='Password'
+            placeholder={t('Password')}
             secureTextEntry={!validate.show_password}
             value={password}
             isVisiblePassword={validate.show_password}
@@ -110,14 +111,14 @@ class LogIn extends Component {
             onChangeText={password => this.setState({ password })}
           />
           <Input
-            placeholder='Confirm Password'
+            placeholder={t('Confirm Password')}
             secureTextEntry={!validate.show_confirm_password}
             value={confirmPassword}
             isVisiblePassword={validate.show_confirm_password}
             onVisiblePassword={() => {
               this.setValidateState({ show_confirm_password: !validate.show_confirm_password })
             }}
-            errorMessage={validate.confirm_password ? '' : 'Confirm password no match'}
+            errorMessage={validate.confirm_password ? '' : t('Confirm password no match') }
             InputComponent={PasswordInput}
             onChangeText={confirmPassword => this.setState({ confirmPassword })}
           />
@@ -143,7 +144,7 @@ class LogIn extends Component {
           <View style={{ flex: 1 }} />
 
           <Button
-            title="Create"
+            title={t("Create")}
             buttonStyle={styles.actions}
             containerStyle={styles.m_10}
             onPress={this.register.bind(this)}

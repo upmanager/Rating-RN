@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { Text, Header } from "@components"
 import { BaseColor } from "@config";
 import { Icon } from "react-native-elements"
+import { t } from "@utils";
 
 const Detail = (props) => {
     const [location, setLocation] = useState(null)
@@ -26,11 +27,11 @@ const Detail = (props) => {
                 onPressLeft={() => props.navigation.goBack()}
             />
             <View style={styles.container}>
-                <Text subhead style={styles.text}>Name of the facility:                  {data.name}</Text>
-                <Text subhead style={styles.text}>Commercial Record number:  {data.record_number}</Text>
-                <Text subhead style={styles.text}>Facility license number:            {data.license_number}</Text>
+                <Text subhead style={styles.text}>{t('Name of the facility')}:                  {data.name}</Text>
+                <Text subhead style={styles.text}>{t('Commercial Record number')}:  {data.record_number}</Text>
+                <Text subhead style={styles.text}>{t('Facility license number')}:            {data.license_number}</Text>
                 <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-                    <Text subhead style={[styles.text, { flex: 1 }]}>Location of the facility:             {location?.description || ''}</Text>
+                    <Text subhead style={[styles.text, { flex: 1 }]}>{t('Location of the facility')}:             {location?.description || ''}</Text>
                     <TouchableOpacity onPress={addLocation}>
                         <Text title3 bold primaryColor>Add</Text>
                     </TouchableOpacity>

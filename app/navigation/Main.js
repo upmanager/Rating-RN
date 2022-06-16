@@ -8,6 +8,7 @@ import GiveRating from "@screens/GiveRating";
 import Detail from "@screens/Detail";
 import React from "react";
 import { connect } from "react-redux";
+import { t } from "@utils";
 const Tab = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -37,16 +38,17 @@ const TabNavigator = (baseProps) => {
       drawerContent={(props) => <CustomDrawerContent  {...baseProps} {...props} />}
 
     >
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home" options={{ drawerLabel: t('Home'), title: t('Home') }} component={Home} />
     </Tab.Navigator>
   )
 }
 const CustomDrawerContent = (props) => {
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       <DrawerItem
-        label="Sign Out"
+        label={t("Sign Out")}
         onPress={() => {
           props.logoutAction();
         }}

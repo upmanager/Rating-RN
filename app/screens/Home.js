@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Text } from "@components"
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { t } from "@utils";
 
 export class index extends Component {
     state = {
@@ -21,11 +22,11 @@ export class index extends Component {
         return (
             <TouchableOpacity style={styles.itemContainer} onPress={this.onFacilityPress.bind(this, item)}>
                 <Text title2 bold style={{ flex: 1, textAlign: "center" }}>{item.name}</Text>
-                <Text headline>Qty: {item.qty}</Text>
-                <Text headline>Manager:</Text>
+                <Text headline>{t("Qty")}: {item.qty}</Text>
+                <Text headline>{t("Manager")}:</Text>
                 <View style={{ paddingHorizontal: 20 }}>
-                    <Text subhead>name: {item.manager?.name}</Text>
-                    <Text subhead>email: {item.manager?.email}</Text>
+                    <Text subhead>{t("Name")}: {item.manager?.name}</Text>
+                    <Text subhead>{t("Email")}: {item.manager?.email}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -49,7 +50,7 @@ export class index extends Component {
         return (
             <View style={{ padding: 12, flex: 1 }}>
                 <Input
-                    placeholder='Search facilities'
+                    placeholder={t('Search facilities')}
                     value={query}
                     onChangeText={query => this.setState({ query })}
                     leftIcon={<Icon name='search' size={24} color='black' />}

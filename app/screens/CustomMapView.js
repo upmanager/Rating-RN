@@ -9,7 +9,12 @@ import GetLocation from 'react-native-get-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from "react-redux";
-const _MAPTYPE = ['standard', "satellite", "hybrid"];
+import { t, getCurLan } from "@utils";
+const _MAPTYPE = [
+  { key: 'standard', value: t('Standard') },
+  { key: 'satellite', value: t('Satellite') },
+  { key: 'hybrid', value: t('Hybrid') },
+];
 const ANDROID_DEVICE = Platform.OS == "android";
 
 class CustomMapView extends Component {
@@ -32,7 +37,7 @@ class CustomMapView extends Component {
       mapType: 0,
       search_location: false
     }
-    Geocoder.init('AIzaSyDR-8rg4jTCxRQbLw-bVm2V6wwSjAvbbVA');
+    Geocoder.init('AIzaSyDR-8rg4jTCxRQbLw-bVm2V6wwSjAvbbVA', { language: getCurLan() || 'en' });
   }
   componentDidMount() {
     if (this.params.viewable) return;
@@ -94,12 +99,12 @@ class CustomMapView extends Component {
           {search_location ?
             <>
               <GooglePlacesAutocomplete
-                placeholder={('Search')}
+                placeholder={t('Search')}
                 fetchDetails={true}
                 onPress={this.onAutoComplete.bind(this)}
                 query={{
                   key: 'AIzaSyDR-8rg4jTCxRQbLw-bVm2V6wwSjAvbbVA',
-                  language: "en"
+                  language: getCurLan() || "en"
                 }}
                 styles={{
                   container: { flex: 1, position: "absolute", top: 25, left: 40, right: 40, zIndex: 999 },
@@ -126,7 +131,7 @@ class CustomMapView extends Component {
             top: 10,
             right: 10,
           }}
-          mapType={_MAPTYPE[mapType]}
+          mapType={_MAPTYPE[mapType].key}
           initialRegion={{
             latitude: pinLocation.latitude,
             longitude: pinLocation.longitude,
@@ -148,7 +153,7 @@ class CustomMapView extends Component {
         <View style={{ width: "100%", padding: 10, flexDirection: "row", alignItems: "center", }}>
           <ButtonGroup
             containerStyle={{ flex: 1 }}
-            buttons={_MAPTYPE}
+            buttons={_MAPTYPE.map(item => item.value)}
             selectedIndex={mapType}
             onPress={(mapType) => this.setState({ mapType })}
           />
