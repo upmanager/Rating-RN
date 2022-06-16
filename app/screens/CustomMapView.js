@@ -11,9 +11,9 @@ import MapView, { Marker } from 'react-native-maps';
 import { connect } from "react-redux";
 import { t, getCurLan } from "@utils";
 const _MAPTYPE = [
-  { key: 'standard', value: t('Standard') },
-  { key: 'satellite', value: t('Satellite') },
-  { key: 'hybrid', value: t('Hybrid') },
+  { key: 'standard', value: 'Standard' },
+  { key: 'satellite', value: 'Satellite' },
+  { key: 'hybrid', value: 'Hybrid' },
 ];
 const ANDROID_DEVICE = Platform.OS == "android";
 
@@ -153,7 +153,7 @@ class CustomMapView extends Component {
         <View style={{ width: "100%", padding: 10, flexDirection: "row", alignItems: "center", }}>
           <ButtonGroup
             containerStyle={{ flex: 1 }}
-            buttons={_MAPTYPE.map(item => item.value)}
+            buttons={_MAPTYPE.map(item => t(item.value))}
             selectedIndex={mapType}
             onPress={(mapType) => this.setState({ mapType })}
           />
