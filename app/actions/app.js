@@ -17,6 +17,16 @@ export const _TOKEN = () => {
     };
     return {};
 }
+export const _USERID = () => {
+    try {
+        const userid = store?.getState()?.auth?.user.id;
+        console.log(userid);
+        return `${userid}1`;
+    } catch (error) {
+        console.log("token error", error)
+    };
+    return 0;
+}
 
 const _REQUEST2SERVER = (url, method = "get", params = null, isFormdata = false) => {
     return new Promise(function (resolve, reject) {
@@ -64,7 +74,8 @@ export const register = (email, password, name, phonenumber, role, callback) => 
 }
 
 export const getFacility = () => dispatch => {
-    _REQUEST2SERVER('facilities')
+    const userid = _USERID();
+    _REQUEST2SERVER(`facilities?userid=${userid}`)
         .then(res => {
             if (res.success) {
                 dispatch({ type: FACILITIES, data: res.data })
@@ -77,7 +88,8 @@ export const getFacility = () => dispatch => {
         })
 }
 export const getQuestions = () => dispatch => {
-    _REQUEST2SERVER('questions')
+    const userid = _USERID();
+    _REQUEST2SERVER(`questions?userid=${userid}`)
         .then(res => {
             if (res.success) {
                 dispatch({ type: QUESTIONS, data: res.data })
