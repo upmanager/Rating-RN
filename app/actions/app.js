@@ -20,8 +20,7 @@ export const _TOKEN = () => {
 export const _USERID = () => {
     try {
         const userid = store?.getState()?.auth?.user.id;
-        console.log(userid);
-        return `${userid}1`;
+        return userid;
     } catch (error) {
         console.log("token error", error)
     };
