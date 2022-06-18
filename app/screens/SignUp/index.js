@@ -58,7 +58,6 @@ class LogIn extends Component {
     }
     this.setState({ registering: true });
     this.props.register(email, password, name, phonenumber, role, res => {
-      console.log(res);
       this.setState({ registering: false });
       if (res.success) {
         Toast.showWithGravity(res.message || t('Register success.'), Toast.SHORT, Toast.TOP);

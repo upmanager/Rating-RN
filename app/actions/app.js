@@ -104,7 +104,6 @@ export const addRating = (workerid, facilityid, location, ratings, callback) => 
     _REQUEST2SERVER('addRating', "post", { workerid, facilityid, location, ratings })
         .then(res => callback(res))
         .catch(err => {
-            console.log(err)
             callback({ success: false, message: "Something went wrong" })
         })
 }
