@@ -5,7 +5,6 @@ import i18n from "i18n-js";
 import * as RNLocalize from "react-native-localize";
 import memoize from "lodash.memoize";
 
-
 const translationGetters = {
   en: () => require("../lang/en.json"),
   ar: () => require("../lang/ar.json")
@@ -21,10 +20,9 @@ const checkKeyTrans = (key) => {
 }
 export const t = (text, ...params) => {
   if (typeof text == "string") {
-    const comma = text.indexOf("...");
     const key = checkKeyTrans(text.replace("...", ''));
     if (key) {
-      text = textTranslate(key) + `${comma >= 0 ? "..." : ''}`;
+      text = textTranslate(key)
     }
   }
   try {

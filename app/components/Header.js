@@ -30,7 +30,7 @@ export default class Header extends Component {
                     </View>
                 </View>
                 {loading &&
-                    <LinearProgress color="primary" />
+                    <LinearProgress color={"primary"} style={{ height: 10 }} />
                 }
             </>
         )

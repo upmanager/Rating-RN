@@ -29,7 +29,7 @@ const Detail = (props) => {
             <View style={styles.container}>
                 <Text subhead style={styles.text}>{t('Name of the facility')}:                  {data.name}</Text>
                 <Text subhead style={styles.text}>{t('Commercial Record number')}:  {data.record_number}</Text>
-                <Text subhead style={styles.text}>{t('Facility license number')}:            {data.license_number}</Text>
+                <Text subhead style={styles.text}>{t('Offices')}:            {data.offices.map(item => item.name).join(", ")}</Text>
                 <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                     <Text subhead style={[styles.text, { flex: 1 }]}>{t('Location of the facility')}:             {location?.description || ''}</Text>
                     <TouchableOpacity onPress={addLocation}>
