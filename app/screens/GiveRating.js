@@ -123,10 +123,10 @@ const GiveRating = (props) => {
                     alert(`${t('Please complete all questions')}\n ${item.title} -> ${element.question}`)
                     return
                 }
-                if (!findItem.match && (!findItem.images || findItem.images.length <= 0)) {
-                    alert(`${t('You must choose at least one image for Non match question.')}\n ${item.title} -> ${element.question}`)
-                    return
-                }
+                // if (!findItem.match && (!findItem.images || findItem.images.length <= 0)) {
+                //     alert(`${t('You must choose at least one image for Non match question.')}\n ${item.title} -> ${element.question}`)
+                //     return
+                // }
             }
         }
 

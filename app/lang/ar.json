@@ -41,5 +41,7 @@
   "Standard": "عادي",
   "Satellite": "الأقمار الصناعية",
   "Hybrid": "هجين",
-  "Offices": "مكاتب"
+  "Offices": "مكاتب",
+  "Please complete all questions": "من فضلك أكمل جميع الأسئلة",
+  "You must choose at least one image for Non match question.": "يجب عليك اختيار صورة واحدة على الأقل لسؤال غير مطابق."
 }
