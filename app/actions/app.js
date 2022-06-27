@@ -64,6 +64,7 @@ export const login = (email, password, callback) => dispatch => {
         })
         .catch(err => {
             dispatch({ type: LOGIN_SUCCESS, data: {} })
+            callback({ success: false })
         })
 }
 export const register = (email, password, name, phonenumber, role, callback) => dispatch => {

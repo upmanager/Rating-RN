@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableOpacity, FlatList, Image, ScrollView } from 
 import React, { useEffect, useState } from 'react'
 import { BaseColor } from "@config"
 import { Header, Text } from "@components"
-import { CheckBox, Icon } from 'react-native-elements'
+import { ButtonGroup, Icon } from 'react-native-elements'
 import ImagePicker from 'react-native-image-crop-picker';
 import { t } from "@utils"
 
@@ -60,9 +60,13 @@ const GiveRating = (props) => {
             updateImage(questionIndex, choose_image)
         }
         if (isCamera) {
-            ImagePicker.openCamera(options).then(response);
+            ImagePicker.openCamera(options)
+                .then(response)
+                .catch(console.log);
         } else {
-            ImagePicker.openPicker(options).then(response);
+            ImagePicker.openPicker(options)
+                .then(response)
+                .catch(console.log);
         }
     };
     const renderImage = (data, index, dataIndex = 0) => {
@@ -77,10 +81,11 @@ const GiveRating = (props) => {
     }
     const setMatch = (questionIndex, questionid, value) => {
         var tmp = [...(selectStatus || [])]
+        var new_data = { match: value, questionid, images: [] };
         if (questionIndex >= 0) {
-            tmp[questionIndex].match = value
+            tmp[questionIndex] = new_data
         } else {
-            tmp = [...tmp, { match: value, questionid, images: [] }]
+            tmp = [...tmp, new_data]
         }
         setSelectStatus(tmp)
     }
@@ -90,7 +95,7 @@ const GiveRating = (props) => {
             <TouchableOpacity
                 onPress={() => setSelectedCategory(item)}
                 style={{ paddingHorizontal: 10, paddingVertical: 4, borderBottomColor: "#000", borderBottomWidth: (selectedCategory?.id == item.id ? 2 : 0), borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}>
-                <Text subhead>{item.title}</Text>
+                <Text subhead>{item.all_check == 1 ? '*' : ''} {item.title}</Text>
             </TouchableOpacity>
         )
     }
@@ -104,7 +109,7 @@ const GiveRating = (props) => {
         var tmp = await (Promise.all(
             selectStatus.map(async item => {
                 var images = []
-                if (item.match === false) {
+                if (item.match > 0 && item.images.length > 0) {
                     images = await _uploadImages(item.images, 'rating', console.log)
                 }
                 return { ...item, images }
@@ -116,10 +121,11 @@ const GiveRating = (props) => {
         for (let i = 0; i < questions.length; i++) {
             const item = questions[i];
             if (!item.questions) continue
+            if (item.all_check == 0) continue
             for (let j = 0; j < item.questions.length; j++) {
                 const element = item.questions[j];
                 const findItem = selectStatus.find(tmp => tmp.questionid == element.id);
-                if (!findItem) {
+                if (!findItem || findItem.match == -1) {
                     alert(`${t('Please complete all questions')}\n ${item.title} -> ${element.question}`)
                     return
                 }
@@ -163,32 +169,29 @@ const GiveRating = (props) => {
                             <View key={dataIndex} style={{ marginVertical: 15 }}>
                                 <Text headline bold>{item.question}</Text>
                                 <View style={{ flexDirection: "row" }}>
-                                    <CheckBox
-                                        style={{ flex: 1 }}
-                                        checked={curQuestion && curQuestion.match === true}
-                                        title={t('Match')}
-                                        checkedIcon='dot-circle-o'
-                                        uncheckedIcon='circle-o'
-                                        onPress={() => setMatch(curQuestIndex, item.id, true)}
-                                    />
-                                    <CheckBox
-                                        style={{ flex: 1 }}
-                                        checked={curQuestion && curQuestion.match === false}
-                                        title={t('Non Match')}
-                                        checkedIcon='dot-circle-o'
-                                        uncheckedIcon='circle-o'
-                                        onPress={() => setMatch(curQuestIndex, item.id, false)}
-                                    />
+                                    <View style={{ width: "100%", padding: 10, flexDirection: "row", alignItems: "center", }}>
+                                        <ButtonGroup
+                                            containerStyle={{ flex: 1 }}
+                                            buttons={[t('Match'), t('Average'), t('Non Match')]}
+                                            selectedIndex={curQuestion?.match}
+                                            selectedButtonStyle={{ backgroundColor: curQuestion?.match == 0 ? BaseColor.primaryColor : curQuestion?.match == 1 ? BaseColor.primary2Color : BaseColor.dangerColor }}
+                                            selectedTextStyle={{ color: "white" }}
+                                            onPress={(i) => setMatch(curQuestIndex, item.id, i)}
+                                        />
+                                        <TouchableOpacity onPress={() => setMatch(curQuestIndex, item.id, -1)}>
+                                            <Icon name="close" size={30} color={BaseColor.redColor} />
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                                {(curQuestIndex >= 0 && curQuestion.match === false) &&
+                                {(curQuestIndex >= 0 && curQuestion?.match > 0) &&
                                     <>
-                                        <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                            <TouchableOpacity style={styles.imageAction}
+                                        <View style={{ flexDirection: "row", marginTop: 10, paddingHorizontal: 20 }}>
+                                            <TouchableOpacity style={[styles.imageAction, { backgroundColor: curQuestion?.match == 1 ? BaseColor.primary2Color : BaseColor.dangerColor }]}
                                                 onPress={() => selectImage(curQuestIndex, false)}
                                             >
                                                 <Text whiteColor>Choose from Gallery</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity style={styles.imageAction}
+                                            <TouchableOpacity style={[styles.imageAction, { backgroundColor: curQuestion?.match == 1 ? BaseColor.primary2Color : BaseColor.dangerColor }]}
                                                 onPress={() => selectImage(curQuestIndex, true)}
                                             >
                                                 <Text whiteColor>Take with Camera</Text>
@@ -247,7 +250,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flex: 1,
-        marginHorizontal: 10,
+        marginHorizontal: 5,
         padding: 10,
         borderRadius: 8,
         backgroundColor: BaseColor.dangerColor

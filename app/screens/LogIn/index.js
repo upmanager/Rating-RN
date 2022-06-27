@@ -11,8 +11,8 @@ import { t } from "@utils";
 
 class LogIn extends Component {
   state = {
-    email: '',
-    password: '',
+    email: '', //client@rating.com
+    password: '', //root12345
     validate: {
       email: true,
       password: true,
