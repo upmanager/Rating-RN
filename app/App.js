@@ -34,7 +34,6 @@ const App = () => {
   }, []);
   const handleLocalizationChange = () => {
     Utils.setI18nConfig();
-    this.forceUpdate();
   };
   return (
     <Provider store={store}>
