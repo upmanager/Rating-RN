@@ -11,11 +11,11 @@ import styles from "./styles";
 
 class LogIn extends Component {
   state = {
-    name: "",
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phonenumber: '',
+    name: "tester",
+    email: 'tester@rating.com',
+    password: 'test12345',
+    confirmPassword: 'test12345',
+    phonenumber: '+1234567890',
     role: 1, //1: clients 2: workers
     validate: {
       name: true,

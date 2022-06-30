@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { BaseColor } from "@config";
 import { Text } from "@components";
 import { LinearProgress } from 'react-native-elements';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 export default class Header extends Component {
     render() {
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: BaseColor.primaryColor,
         padding: 10,
+        paddingTop: getStatusBarHeight(true)
     },
     action: {
         width: 40
