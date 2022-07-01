@@ -108,7 +108,7 @@ class CustomMapView extends Component {
                   language: getCurLan() || "en"
                 }}
                 styles={{
-                  container: { flex: 1, position: "absolute", top: 0, left: 40, right: 40, zIndex: 999 },
+                  container: { flex: 1, position: "absolute", top: 4, left: 40, right: 40, zIndex: 999 },
                   textInput: { ...styles.autocomplete_input },
                 }}
               />
