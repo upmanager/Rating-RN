@@ -93,7 +93,7 @@ class CustomMapView extends Component {
     if ((!getMyLocation && this.viewable) || !pinLocation) return <></>;
     return (
       <View style={styles.container}>
-        <View style={{ width: "100%", flexDirection: "row", paddingBottom: 10, alignItems: "center" }}>
+        <View style={{ width: "100%", flexDirection: "row", paddingBottom: 10, alignItems: "center", position:'relative' }}>
           <TouchableOpacity onPress={this.props.navigation.goBack} style={{ padding: 10 }}>
             <Icon name={"angle-left"} size={30} color={BaseColor.grayColor} type={'font-awesome-5'} />
           </TouchableOpacity>
@@ -108,7 +108,7 @@ class CustomMapView extends Component {
                   language: getCurLan() || "en"
                 }}
                 styles={{
-                  container: { flex: 1, position: "absolute", top: 25, left: 40, right: 40, zIndex: 999 },
+                  container: { flex: 1, position: "absolute", top: 0, left: 40, right: 40, zIndex: 999 },
                   textInput: { ...styles.autocomplete_input },
                 }}
               />
@@ -133,19 +133,19 @@ class CustomMapView extends Component {
             right: 10,
           }}
           mapType={_MAPTYPE[mapType].key}
-          // initialRegion={{
-          //   latitude: pinLocation.latitude,
-          //   longitude: pinLocation.longitude,
-          //   latitudeDelta: .5,
-          //   longitudeDelta: .5
-          // }}
-          // initialCamera={{
-          //   center: pinLocation,
-          //   heading: 0,
-          //   pitch: 1,
-          //   zoom: 10,
-          //   altitude: 0,
-          // }}
+          initialRegion={{
+            latitude: pinLocation.latitude,
+            longitude: pinLocation.longitude,
+            latitudeDelta: .5,
+            longitudeDelta: .5
+          }}
+          initialCamera={{
+            center: pinLocation,
+            heading: 0,
+            pitch: 1,
+            zoom: 10,
+            altitude: 0,
+          }}
           onPress={this.touchMap.bind(this)}
         >
           <Marker coordinate={pinLocation}>

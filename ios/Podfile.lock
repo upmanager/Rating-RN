@@ -88,34 +88,10 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - glog (0.3.5)
-  - Google-Maps-iOS-Utils (4.1.0):
-    - Google-Maps-iOS-Utils/Clustering (= 4.1.0)
-    - Google-Maps-iOS-Utils/Geometry (= 4.1.0)
-    - Google-Maps-iOS-Utils/GeometryUtils (= 4.1.0)
-    - Google-Maps-iOS-Utils/Heatmap (= 4.1.0)
-    - Google-Maps-iOS-Utils/QuadTree (= 4.1.0)
-    - GoogleMaps
-  - Google-Maps-iOS-Utils/Clustering (4.1.0):
-    - Google-Maps-iOS-Utils/QuadTree
-    - GoogleMaps
-  - Google-Maps-iOS-Utils/Geometry (4.1.0):
-    - GoogleMaps
-  - Google-Maps-iOS-Utils/GeometryUtils (4.1.0):
-    - GoogleMaps
-  - Google-Maps-iOS-Utils/Heatmap (4.1.0):
-    - Google-Maps-iOS-Utils/QuadTree
-    - GoogleMaps
-  - Google-Maps-iOS-Utils/QuadTree (4.1.0):
-    - GoogleMaps
   - GoogleDataTransport (9.1.4):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleMaps (6.1.1):
-    - GoogleMaps/Maps (= 6.1.1)
-  - GoogleMaps/Base (6.1.1)
-  - GoogleMaps/Maps (6.1.1):
-    - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -334,10 +310,6 @@ PODS:
     - React-jsi (= 0.64.2)
     - React-perflogger (= 0.64.2)
   - React-jsinspector (0.64.2)
-  - react-native-google-maps (0.31.1):
-    - Google-Maps-iOS-Utils (= 4.1.0)
-    - GoogleMaps (= 6.1.1)
-    - React-Core
   - react-native-html-to-pdf (0.10.0):
     - React-Core
   - react-native-maps (0.31.1):
@@ -524,7 +496,6 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
-  - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-html-to-pdf (from `../node_modules/react-native-html-to-pdf`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -574,9 +545,7 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
-    - Google-Maps-iOS-Utils
     - GoogleDataTransport
-    - GoogleMaps
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
@@ -619,8 +588,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
-  react-native-google-maps:
-    :path: "../node_modules/react-native-maps"
   react-native-html-to-pdf:
     :path: "../node_modules/react-native-html-to-pdf"
   react-native-maps:
@@ -704,9 +671,7 @@ SPEC CHECKSUMS:
   Flipper-RSocket: 127954abe8b162fcaf68d2134d34dc2bd7076154
   FlipperKit: 8a20b5c5fcf9436cac58551dc049867247f64b00
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
-  Google-Maps-iOS-Utils: 3343332b18dfd5be8f1f44edd7d481ace3da4d9a
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
-  GoogleMaps: 94e6e0851beece6678af9f508f4918b7a7c61722
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
@@ -725,7 +690,6 @@ SPEC CHECKSUMS:
   React-jsi: 67747b9722f6dab2ffe15b011bcf6b3f2c3f1427
   React-jsiexecutor: 80c46bd381fd06e418e0d4f53672dc1d1945c4c3
   React-jsinspector: cc614ec18a9ca96fd275100c16d74d62ee11f0ae
-  react-native-google-maps: 8231ffa015bf8b222c2e2661fa9163cdb609a224
   react-native-html-to-pdf: 1214f9c795a587fe60a950d11a891cd05be29625
   react-native-maps: 8b8bfada2c86205a7f5a07dd1f92f29b33ea83aa
   react-native-pager-view: 54970cc27fdef14db2dcfedadb091d711e88065d
@@ -761,6 +725,6 @@ SPEC CHECKSUMS:
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 00b30e4bb6768c724c59bc246f2f9fadb99a5539
+PODFILE CHECKSUM: 392d6635089a722c077802fdb175bec72237cb04
 
 COCOAPODS: 1.11.3
