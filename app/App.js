@@ -8,7 +8,7 @@
 
 import { persistor, store } from "@store";
 import React, { useEffect } from 'react';
-import { LogBox, StyleSheet, Platform, StatusBar } from 'react-native';
+import { LogBox, StyleSheet, Platform, StatusBar, View } from 'react-native';
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import Navigation from "./navigation";
@@ -16,11 +16,14 @@ import { BaseColor } from "@config";
 import { enableLatestRenderer } from 'react-native-maps';
 import * as RNLocalize from "react-native-localize";
 import * as Utils from "@utils";
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
+
 
 enableLatestRenderer();
 
 LogBox.ignoreAllLogs(true);
 const App = () => {
+  const insets = useSafeAreaInsets();
   useEffect(() => {
     Utils.setI18nConfig();
 
@@ -36,11 +39,10 @@ const App = () => {
     Utils.setI18nConfig();
   };
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Navigation />
-      </PersistGate>
-    </Provider>
+    <>
+      <Navigation />
+      <View style={{ height: insets.bottom }} />
+    </>
   )
 };
 
@@ -48,4 +50,14 @@ const styles = StyleSheet.create({
 
 });
 
-export default App;
+export default function Main() {
+  return (
+    <PersistGate loading={null} persistor={persistor}>
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <App />
+        </SafeAreaProvider>
+      </Provider>
+    </PersistGate>
+  );
+}
