@@ -7,9 +7,12 @@ import { ButtonGroup, Icon } from 'react-native-elements';
 import Geocoder from 'react-native-geocoding';
 import GetLocation from 'react-native-get-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+
+
 import { connect } from "react-redux";
 import { t, getCurLan } from "@utils";
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 const _MAPTYPE = [
   { key: 'standard', value: 'Standard' },
   { key: 'satellite', value: 'Satellite' },
@@ -124,6 +127,7 @@ class CustomMapView extends Component {
           </TouchableOpacity>
         </View>
         <MapView
+          provider={PROVIDER_GOOGLE}
           style={styles.mapContainer}
           ref={(ref) => this.mapRef = ref}
           showsCompass={false}
@@ -178,6 +182,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CustomMapView);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: getStatusBarHeight(true)
   },
   mapContainer: {
     // position: "absolute",

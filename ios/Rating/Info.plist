@@ -29,16 +29,23 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 
-	
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your camera to allow you changing your profile's picture or to post some pictures</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>$(PRODUCT_NAME) would like to get your location to allow you add office location.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your microphone for record video</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
