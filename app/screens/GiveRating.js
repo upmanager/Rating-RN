@@ -130,7 +130,7 @@ const GiveRating = (props) => {
                     return
                 }
                 // if (!findItem.match && (!findItem.images || findItem.images.length <= 0)) {
-                //     alert(`${t('You must choose at least one image for Non match question.')}\n ${item.title} -> ${element.question}`)
+                //     alert(`${t('You must choose at least one image for Non match question')}\n ${item.title} -> ${element.question}`)
                 //     return
                 // }
             }
