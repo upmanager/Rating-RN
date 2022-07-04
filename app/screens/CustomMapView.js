@@ -75,7 +75,7 @@ class CustomMapView extends Component {
       pinLocation.description = await this.getDescriotion(pinLocation);
     }
     this.setState({ pinLocation });
-    this.mapRef?.animateCamera({ center: pinLocation }, { duration });
+    this.mapRef?.animateCamera({ center: pinLocation, zoom: 10 }, { duration });
   }
   onAutoComplete(data, details) {
     const location = details?.geometry?.location;
@@ -93,7 +93,7 @@ class CustomMapView extends Component {
     if ((!getMyLocation && this.viewable) || !pinLocation) return <></>;
     return (
       <View style={styles.container}>
-        <View style={{ width: "100%", flexDirection: "row", paddingBottom: 10, alignItems: "center", position:'relative' }}>
+        <View style={{ width: "100%", flexDirection: "row", paddingBottom: 10, alignItems: "center", zIndex: 9999 }}>
           <TouchableOpacity onPress={this.props.navigation.goBack} style={{ padding: 10 }}>
             <Icon name={"angle-left"} size={30} color={BaseColor.grayColor} type={'font-awesome-5'} />
           </TouchableOpacity>
@@ -127,6 +127,7 @@ class CustomMapView extends Component {
         <MapView
           style={styles.mapContainer}
           ref={(ref) => this.mapRef = ref}
+          provider={PROVIDER_GOOGLE}
           showsCompass={false}
           compassStyle={{
             top: 10,
@@ -138,14 +139,15 @@ class CustomMapView extends Component {
             longitude: pinLocation.longitude,
             latitudeDelta: .5,
             longitudeDelta: .5
+
           }}
-          initialCamera={{
-            center: pinLocation,
-            heading: 0,
-            pitch: 1,
-            zoom: 10,
-            altitude: 0,
-          }}
+          // initialCamera={{
+          //   center: pinLocation,
+          //   heading: 0,
+          //   pitch: 1,
+          //   zoom: 10,
+          //   altitude: 0,
+          // }}
           onPress={this.touchMap.bind(this)}
         >
           <Marker coordinate={pinLocation}>
